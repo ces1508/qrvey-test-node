@@ -1,14 +1,16 @@
 const { validate } = require('../lib/token')
+const { errorCodes: { INVALID_TOKEN } } = require('../config/constanst')
 
 const unAuthorizationResponse = {
   status: 401,
-  errors: 'you need to send a valid token'
+  errors: 'you need to send a valid token',
+  code: INVALID_TOKEN
 }
 
 const validateToken = async (req, res, next) => {
   let hasError = false
   let decode = null
-  const authorizationHeader = req.headers['authorization'] || req.headers['Authorization']
+  const authorizationHeader = req.headers.authorization || req.headers.Authorization
   if (authorizationHeader) {
     const [tokenType, token] = authorizationHeader.split(' ')
     if (tokenType.toLowerCase() !== 'bearer') hasError = true

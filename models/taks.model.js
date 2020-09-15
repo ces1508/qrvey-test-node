@@ -1,4 +1,4 @@
-const  { Schema, model, SchemaTypes } = require('mongoose')
+const { Schema, model, SchemaTypes } = require('mongoose')
 
 const taskSchema = new Schema({
   title: SchemaTypes.String,
@@ -34,6 +34,6 @@ const taskSchema = new Schema({
   }
 }, {
   autoIndex: true
- })
+})
 
 module.exports = model('Task', taskSchema)

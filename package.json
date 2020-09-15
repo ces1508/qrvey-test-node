@@ -7,7 +7,12 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "lint": "standard --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --exit"
+  },
+  "standard": {
+    "ignore": [
+      "/test"
+    ]
   },
   "keywords": [],
   "author": "",

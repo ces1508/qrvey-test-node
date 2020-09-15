@@ -1,26 +1,10 @@
-const { Task , Project } = require('../models')
+const { Task, Project } = require('../models')
 const onPaginate = require('../lib/paginate')
+const parseState = require('../lib/taskStateParse')
 
 const _limit = 15
-const _ACTIVE_STATE = 'ACTIVE'
-const _PAUSE_STATE = 'PAUSED'
-const _FINISHED_STATE = 'FINISHED'
 
 class TaskController {
-
-  _parseState (state) {
-    switch(state) {
-      case 'active':
-        return _ACTIVE_STATE
-      case 'pause':
-        return _PAUSE_STATE
-      case 'finish':
-        return _FINISHED_STATE
-      default:
-        return _ACTIVE_STATE
-    }
-  }
-
   async find (req, res) {
     const { id } = req.params
     try {
@@ -33,6 +17,7 @@ class TaskController {
       throw error
     }
   }
+
   async create (req, res) {
     const { projectId } = req.params
     const { title, body, hoursToExpired, minutesToExpired, secondsToExpired } = req.body
@@ -63,10 +48,10 @@ class TaskController {
       throw error
     }
   }
-  async index(req, res) {
+
+  async index (req, res) {
     try {
-      const { projectId } = req.params
-      const { page = 1 } = req.query
+      const { params: { projectId }, query: { page = 1 } } = req
       const quantity = await Task.countDocuments({ project: projectId })
       const { pages, skip, isLastPage } = onPaginate(quantity, _limit, page)
       const tasks = await Task.find({ project: projectId }).skip(skip).limit(15)
@@ -78,11 +63,11 @@ class TaskController {
       throw error
     }
   }
-  updateStatus = async (req, res) => {
+
+  async updateStatus (req, res) {
     const { params: { id }, path } = req
     const state = path.split('/')[2]
-    const newStatus = this._parseState(state)
-    console.log(state)
+    const newStatus = parseState(state)
     try {
       const tasks = await Task.findOneAndUpdate({ _id: id }, { state: newStatus }, { new: true })
       res.json({ tasks })
