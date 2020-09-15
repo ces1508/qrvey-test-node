@@ -1,7 +1,7 @@
 const { User } = require('../models')
 const { generate } = require('../lib/token')
 const { compare } = require('../lib/password')
-const { errorCodes: {INVALID_CREDENTIALS} } = require('../config/constanst')
+const { errorCodes: { INVALID_CREDENTIALS } } = require('../config/constanst')
 
 class SessionController {
   async create (req, res) {
