@@ -3,7 +3,7 @@ const { errorCodes: { INVALID_TOKEN } } = require('../config/constanst')
 
 const unAuthorizationResponse = {
   status: 401,
-  errors: 'you need to send a valid token',
+  error: 'you need to send a valid token',
   code: INVALID_TOKEN
 }
 

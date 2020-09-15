@@ -37,10 +37,8 @@ describe('API /users', () => {
   })
 
   it('POST / exits users', async () => {
-    console.log(userData)
     const response = await request(app).post('/users').send(userData)
     const { body, statusCode } = response
-    console.log(body)
     expect(statusCode).to.be.equal(400)
     expect(body).to.have.ownProperty('error')
     expect(body).to.have.ownProperty('code')
